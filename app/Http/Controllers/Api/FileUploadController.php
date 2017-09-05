@@ -31,7 +31,10 @@ class FileUploadController extends Controller
         return [
             'code' => 0,
             'text' => 'success',
-            'result' => $res,
+            'result' => [
+                'source_text' => $response['result'][0],
+                'result_text' => $res
+            ]
         ];
     }
 
