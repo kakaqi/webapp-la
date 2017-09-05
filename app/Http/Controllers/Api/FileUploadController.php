@@ -27,12 +27,13 @@ class FileUploadController extends Controller
         exec($cmd, $out);
         $token = self::baiduVoiceAuth();
         $response = self::baiduVoice($token, $pathname.$pre_name.'.'.$type, 'wav');
-        $res = self::translate($response['result'][0], $source_lan, $target_lan);
+        $content = substr($response['result'][0], 0, -1) ;
+        $res = self::translate($content, $source_lan, $target_lan);
         return [
             'code' => 0,
             'text' => 'success',
             'result' => [
-                'source_text' => $response['result'][0],
+                'source_text' => $content,
                 'result_text' => $res
             ]
         ];
