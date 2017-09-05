@@ -98,7 +98,7 @@ class FileUploadController extends Controller
         }
         curl_close($ch);
         $response = json_decode($response, true);
-        file_put_contents('.test.txt', var_export($response));
+        //file_put_contents('./test.txt', var_export($response));
         return  $response;
     }
 
