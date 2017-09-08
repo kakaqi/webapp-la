@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::prefix('admin')->namespace('Admin')->group(function () {
     //后台登录页面
     Route::get('login', 'LoginController@index');
+    Route::get('/', 'LoginController@index');
     //登录处理
     Route::post('authorization', 'LoginController@login');
 
