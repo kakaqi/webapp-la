@@ -26,4 +26,7 @@ Route::namespace('Api')->group(function () {
     Route::post('languages', 'LanguageController@index');
     //保存微信用户wxUser
     Route::post('wxUser', 'WxUserController@store');
+    Route::get('speech', 'GoogleSpeechController@index');
+    Route::get('baidu/speech', 'FileUploadController@getBaiduVoice');
+
 });

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Stichoza\GoogleTranslate\TranslateClient;
+use Illuminate\Support\Facades\File;
+
+use App\Libs as libs;
 
 class FileUploadController extends Controller
 {
@@ -25,10 +28,18 @@ class FileUploadController extends Controller
         $type = 'wav';
         $cmd = '/usr/bin/sh /usr/local/src/silk-v3-decoder/converter_beta.sh  /www/webapp-la/public/voice/'.$filename.' '.$type;
         exec($cmd, $out);
-        $token = self::baiduVoiceAuth();
-        $response = self::baiduVoice($token, $pathname.$pre_name.'.'.$type, 'wav');
+
+        $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
+        // 识别本地文件
+        $response = $aipSpeech->asr(file_get_contents($filename.','.$type), 'pcm', 8000, array(
+            'lan' => 'zh',
+        ));
         $content = rtrim($response['result'][0], '，') ;
         $res = self::translate($content, $source_lan, $target_lan);
+
+        File::delete($filename);
+        File::delete($filename.','.$type);
+
         return [
             'code' => 0,
             'text' => 'success',
@@ -39,72 +50,7 @@ class FileUploadController extends Controller
         ];
     }
 
-    /**
-     * 百度接口认证
-     * @return mixed
-     */
-    protected function baiduVoiceAuth()
-    {
-        $auth_url = env('AUTH_URL').env('APIKEY')."&client_secret=".env('SECRETKEY');
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $auth_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        $response = curl_exec($ch);
-        if(curl_errno($ch))
-        {
-            print curl_error($ch);
-        }
-        curl_close($ch);
-        $response = json_decode($response, true);
-        return $response['access_token'];
-    }
 
-    /**
-     * 百度语音识别
-     * @param $token
-     * @param $audio_file
-     * @param string $type
-     * @return mixed
-     */
-    protected function baiduVoice($token, $audio_file, $type='wav')
-    {
-        $audio = file_get_contents($audio_file);
-        $base_data = base64_encode($audio);
-        $array = array(
-            "format" => $type,
-            "rate" => 8000,
-            "channel" => 1,
-            //"lan" => "zh",
-            "token" => $token,
-            "cuid"=> env('CUID'),
-            //"url" => "http://www.xxx.com/sample.pcm",
-            //"callback" => "http://www.xxx.com/audio/callback",
-            "len" => filesize($audio_file),
-            "speech" => $base_data,
-        );
-        $json_array = json_encode($array);
-        $content_len = "Content-Length: ".strlen($json_array);
-        $header = array ($content_len, 'Content-Type: application/json; charset=utf-8');
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, env('BAIDU_API_URL'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_array);
-        $response = curl_exec($ch);
-        if(curl_errno($ch))
-        {
-            print curl_error($ch);
-        }
-        curl_close($ch);
-        $response = json_decode($response, true);
-        //file_put_contents('./test.txt', var_export($response));
-        return  $response;
-    }
 
     protected function translate($content, $source_lan, $target_lan)
     {
@@ -117,5 +63,15 @@ class FileUploadController extends Controller
             $res = $obj->translate($content);
         }
         return $res;
+    }
+
+    public function getBaiduVoice()
+    {
+        $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
+        // 识别本地文件
+        $re = $aipSpeech->asr(file_get_contents('./2017090403224593.silk.pcm'), 'pcm', 8000, array(
+            'lan' => 'zh',
+        ));
+        var_export($re);
     }
 }

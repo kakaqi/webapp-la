@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Stichoza\\GoogleTranslate\\' => array($vendorDir . '/stichoza/google-translate-php/src'),
+    'Rize\\UriTemplate' => array($vendorDir . '/rize/uri-template/src'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
