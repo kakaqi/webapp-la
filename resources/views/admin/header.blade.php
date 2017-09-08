@@ -187,7 +187,7 @@ desired effect
                             <!-- The user image in the navbar-->
                             <img src="{{ asset('bower_components/AdminLTE/dist/img/admin.png')}}" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">{{$userInfo['name']}}</span>
+                            <span class="hidden-xs">{{session('user_info')['name']}}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -195,7 +195,7 @@ desired effect
                                 <img src="{{ asset('bower_components/AdminLTE/dist/img/admin.png')}}" class="img-circle" alt="User Image">
 
                                 <p>
-                                    {{$userInfo['email']}}
+                                    {{session('user_info')['email']}}
                                     {{--<small>Member since Nov. 2012</small>--}}
                                 </p>
                             </li>

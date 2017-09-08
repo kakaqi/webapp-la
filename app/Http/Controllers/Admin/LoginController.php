@@ -65,9 +65,10 @@ class LoginController extends Controller
         ];
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->forget('user_info');
         return redirect()->intended('/admin/login');
     }
 }

@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
 
             return redirect('/admin/login');
         }
-        var_export(Auth::guard($guard)->user());die;
+        session(['user_info' =>Auth::guard($guard)->user()]);
         return $next($request);
     }
 }

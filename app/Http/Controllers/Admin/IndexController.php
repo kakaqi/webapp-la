@@ -6,10 +6,7 @@ use Illuminate\Http\Request;
 
 class IndexController extends BaseController
 {
-    public function __construct()
-    {
-        var_export(11);die;
-    }
+
     public function index(Request $request)
     {
 
