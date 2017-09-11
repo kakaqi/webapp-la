@@ -28,5 +28,6 @@ Route::namespace('Api')->group(function () {
     Route::post('wxUser', 'WxUserController@store');
     Route::get('speech', 'GoogleSpeechController@index');
     Route::get('baidu/speech', 'FileUploadController@getBaiduVoice');
+    Route::post('text/voice', 'TranslateController@baiduText2Voice');
 
 });
