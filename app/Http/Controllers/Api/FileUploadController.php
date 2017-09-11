@@ -26,19 +26,18 @@ class FileUploadController extends Controller
         $file->move($pathname, $filename);
 
         $type = 'wav';
-        $cmd = '/usr/bin/sh /usr/local/src/silk-v3-decoder/converter_beta.sh  /www/webapp-la/public/voice/'.$filename.' '.$type;
+        $cmd = '/usr/bin/sh /silk-v3-decoder/converter.sh  /www/webapp-la/public/voice/'.$filename.' '.$type;
         exec($cmd, $out);
 
         $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
         // 识别本地文件
-        $response = $aipSpeech->asr(file_get_contents($filename.','.$type), 'pcm', 8000, array(
+        $response = $aipSpeech->asr(file_get_contents($pathname.$pre_name.'.'.$type), $type, 24000, array(
             'lan' => 'zh',
         ));
         $content = rtrim($response['result'][0], '，') ;
         $res = self::translate($content, $source_lan, $target_lan);
 
-        File::delete($filename);
-        File::delete($filename.','.$type);
+        File::cleanDirectory($pathname);
 
         return [
             'code' => 0,
@@ -72,6 +71,7 @@ class FileUploadController extends Controller
         $re = $aipSpeech->asr(file_get_contents('./2017090403224593.silk.pcm'), 'pcm', 8000, array(
             'lan' => 'zh',
         ));
-        var_export($re);
+        return $re;
+       // var_export($re);
     }
 }
