@@ -29,5 +29,7 @@ Route::namespace('Api')->group(function () {
     Route::get('speech', 'GoogleSpeechController@index');
     Route::get('baidu/speech', 'FileUploadController@getBaiduVoice');
     Route::post('text/voice', 'TranslateController@baiduText2Voice');
+    Route::delete('text/voice', 'TranslateController@deleteAudio');
+    Route::post('google/text/voice', 'TranslateController@translateTts');
 
 });

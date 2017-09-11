@@ -28,7 +28,6 @@ class FileUploadController extends Controller
         $type = 'wav';
         $cmd = '/usr/bin/sh /silk-v3-decoder/converter.sh  /www/webapp-la/public/voice/'.$filename.' '.$type;
         exec($cmd, $out);
-
         $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
         // 识别本地文件
         $response = $aipSpeech->asr(file_get_contents($pathname.$pre_name.'.'.$type), $type, 24000, array(

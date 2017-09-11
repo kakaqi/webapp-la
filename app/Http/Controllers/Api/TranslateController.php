@@ -48,7 +48,7 @@ class TranslateController extends Controller
         ];*/
 
         $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
-        $result = $aipSpeech->synthesis($content, $lan, 1, array(
+        $result = $aipSpeech->synthesis($content, 'zh', 1, array(
             'vol' => 5,
         ));
         $save_path = 'text2voice/';
@@ -57,12 +57,16 @@ class TranslateController extends Controller
         }
         // 识别正确返回语音二进制 错误则返回json 参照下面错误码
         if(!is_array($result)){
-            $pre_name = date('Y-m-d-H-i-s') . '-' . uniqid().'.mp3';
+            $uniqid = uniqid();
+            $pre_name = date('Y-m-d-H-i-s') . '-' .$uniqid.'.mp3';
             file_put_contents($save_path.$pre_name, $result);
             return [
                 'code' => 0,
                 'text' => 'success',
-                'result' => env('APP_URL').$save_path.$pre_name
+                'result' => [
+                    'full_url' => env('APP_URL').$save_path.$pre_name,
+                    'path_file' => $save_path.$pre_name
+                ]
             ];
         }
         return [
@@ -70,5 +74,40 @@ class TranslateController extends Controller
             'text' => 'fail',
             'result' => $result
         ];
+    }
+
+    public function deleteAudio( Request $request)
+    {
+        $path_file = $request->input('path_file');
+        File::delete($path_file);
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' => ''
+        ];
+    }
+
+    public function translateTts(Request $request)
+    {
+        $content = $request->input('content');
+        $lan = $request->input('lan');
+        $url = 'https://translate.google.cn/translate_tts?ie=UTF-8&total=1&idx=0&client=tw-ob&q='.$content.'&tl='.$lan;
+        $save_path = 'text2voice/';
+        $uniqid = uniqid();
+        $pre_name = date('Y-m-d-H-i-s') . '-' .$uniqid.'.mp3';
+        $cmd = '/usr/bin/wget -q -U Mozilla -O  '.$save_path.$pre_name.' "'.$url.'"';
+        exec($cmd, $out);
+
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' => [
+                'full_url' => env('APP_URL').$save_path.$pre_name,
+                'path_file' => $save_path.$pre_name
+            ]
+        ];
+
+        //file_put_contents($save_path.$pre_name, $response);
+
     }
 }
