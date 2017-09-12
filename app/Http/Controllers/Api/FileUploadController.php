@@ -40,6 +40,13 @@ class FileUploadController extends Controller
                 'result' => ''
             ];
         }
+        if( !isset($response['result'])) {
+            return [
+                'code' => 400,
+                'text' => 'error',
+                'result' => ''
+            ];
+        }
         $content = rtrim($response['result'][0], '，') ;
         $res = self::translate($content, $source_lan, $target_lan);
         File::delete($pathname.$filename);
