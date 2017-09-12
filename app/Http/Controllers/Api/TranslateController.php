@@ -89,22 +89,36 @@ class TranslateController extends Controller
 
     public function translateTts(Request $request)
     {
-        $content = $request->input('content');
+        $tsrlan = mb_strlen($request->input('content'),'UTF-8');
+        $per_num = 190;
+        $i = 0;
+        $arr = [];
+        for ($i; $tsrlan > $i;){
+            $tmp = mb_substr($request->input('content'), $i, $i+$per_num,'UTF-8');
+            $arr[] = $tmp;
+            $i = mb_strlen($tmp,'UTF-8') + $i;
+        }
+
         $lan = $request->input('lan');
-        $url = 'https://translate.google.cn/translate_tts?ie=UTF-8&total=1&idx=0&client=tw-ob&q='.$content.'&tl='.$lan;
-        $save_path = 'text2voice/';
-        $uniqid = uniqid();
-        $pre_name = date('Y-m-d-H-i-s') . '-' .$uniqid.'.mp3';
-        $cmd = '/usr/bin/wget -q -U Mozilla -O  '.$save_path.$pre_name.' "'.$url.'"';
-        exec($cmd, $out);
+        $total = count($arr);
+        $res = [];
+        foreach ($arr as $key => $item){
+            $url = 'https://translate.google.cn/translate_tts?ie=UTF-8&total='.$total.'&idx='.$key.'&client=tw-ob&q='.$item.'&tl='.$lan;
+            $save_path = 'text2voice/';
+            $uniqid = uniqid();
+            $pre_name = date('Y-m-d-H-i-s') . '-' .$uniqid.'.mp3';
+            $cmd = '/usr/bin/wget -q -U Mozilla -O  '.$save_path.$pre_name.' "'.$url.'"';
+            exec($cmd, $out);
+            $res[] = [
+                'full_url' => env('APP_URL').$save_path.$pre_name,
+                'path_file' => $save_path.$pre_name
+            ];
+        }
 
         return [
             'code' => 0,
             'text' => 'success',
-            'result' => [
-                'full_url' => env('APP_URL').$save_path.$pre_name,
-                'path_file' => $save_path.$pre_name
-            ]
+            'result' =>$res
         ];
 
         //file_put_contents($save_path.$pre_name, $response);
