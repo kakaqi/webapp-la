@@ -42,8 +42,9 @@ class FileUploadController extends Controller
         }
         $content = rtrim($response['result'][0], '，') ;
         $res = self::translate($content, $source_lan, $target_lan);
-
-        File::cleanDirectory($pathname);
+        File::delete($pathname.$filename);
+        File::delete($pathname.$pre_name.'.'.$type);
+//        File::cleanDirectory($pathname);
 
         return [
             'code' => 0,
