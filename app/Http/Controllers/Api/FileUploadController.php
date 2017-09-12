@@ -33,7 +33,7 @@ class FileUploadController extends Controller
         $response = $aipSpeech->asr(@file_get_contents($pathname.$pre_name.'.'.$type), $type, 16000, array(
             'lan' => 'zh',
         ));
-        if( $response['err_no'] ) {
+        if( $response['err_no'] != 0) {
             return [
                 'code' => 400,
                 'text' => 'error',
