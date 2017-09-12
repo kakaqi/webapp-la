@@ -31,7 +31,7 @@ class FileUploadController extends Controller
         $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
         // 识别本地文件
         $response = $aipSpeech->asr(@file_get_contents($pathname.$pre_name.'.'.$type), $type, 16000, array(
-            'lan' => $source_lan,
+            'lan' => 'zh',
         ));
         if( $response['err_no'] != 0) {
             return [
