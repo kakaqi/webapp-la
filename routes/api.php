@@ -31,5 +31,6 @@ Route::namespace('Api')->group(function () {
     Route::post('text/voice', 'TranslateController@baiduText2Voice');
     Route::delete('text/voice', 'TranslateController@deleteAudio');
     Route::post('google/text/voice', 'TranslateController@translateTts');
+    Route::post('baidu/voice', 'FileUploadController@getBaiduVoice');
 
 });

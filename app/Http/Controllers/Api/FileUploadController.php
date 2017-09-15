@@ -80,14 +80,15 @@ class FileUploadController extends Controller
         return $res;
     }
 
-    public function getBaiduVoice()
+    public function getBaiduVoice(Request $request)
     {
+        $file = $request->input('file');
         $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
         // 识别本地文件
-        $re = $aipSpeech->asr(file_get_contents('./2017090403224593.silk.pcm'), 'pcm', 8000, array(
+        $re = $aipSpeech->asr(file_get_contents($file), 'pcm', 16000, array(
             'lan' => 'zh',
         ));
         return $re;
-       // var_export($re);
+//        var_export($re);
     }
 }
