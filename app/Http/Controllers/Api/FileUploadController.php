@@ -31,7 +31,7 @@ class FileUploadController extends Controller
         exec($cmd, $out);
         $aipSpeech = new libs\AipSpeech(env('CUID'), env('APIKEY'), env('SECRETKEY'));
         // 识别本地文件
-        $response = $aipSpeech->asr(@file_get_contents($pathname.$pre_name.'.'.$type.'.'.$type2), $type2, 16000, array(
+        $response = $aipSpeech->asr(@file_get_contents($filename.'.'.$type2), $type2, 16000, array(
             'lan' => 'zh',
         ));
         if( $response['err_no'] != 0) {
@@ -52,7 +52,7 @@ class FileUploadController extends Controller
         $res = self::translate($content, $source_lan, $target_lan);
         File::delete($pathname.$filename);
         File::delete($pathname.$pre_name.'.'.$type);
-        File::delete($pathname.$pre_name.'.'.$type.'.'.$type2);
+        File::delete($filename.'.'.$type2);
 //        File::cleanDirectory($pathname);
 
         return [
