@@ -24,7 +24,7 @@ class WxUserController extends Controller
                 'nickName' => isset( $user_info['nickName']) ? $user_info['nickName']  : '',
                 'gender' => isset( $user_info['gender']) ? $user_info['gender']  : '',
                 'avatarUrl' => isset( $user_info['avatarUrl']) ? $user_info['avatarUrl']  : '',
-                'city' => isset( $user_info['city'])  ? $user_info['city']  : '1',
+                'city' => isset( $user_info['city'])  ? $user_info['city']  : '',
                 'province' => isset( $user_info['province']) ? $user_info['province']  : '',
                 'country' => isset( $user_info['country']) ? $user_info['country']  : '',
                 'language' => isset( $user_info['language']) ? $user_info['language']  : ''
