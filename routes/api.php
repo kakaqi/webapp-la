@@ -32,5 +32,7 @@ Route::namespace('Api')->group(function () {
     Route::delete('text/voice', 'TranslateController@deleteAudio');
     Route::post('google/text/voice', 'TranslateController@translateTts');
     Route::post('baidu/voice', 'FileUploadController@getBaiduVoice');
+    //每日一句
+    Route::get('day/article', 'ArticleController@index');
 
 });
