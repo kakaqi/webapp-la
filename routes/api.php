@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 Route::namespace('Api')->group(function () {
     //翻译接口
@@ -34,5 +34,7 @@ Route::namespace('Api')->group(function () {
     Route::post('baidu/voice', 'FileUploadController@getBaiduVoice');
     //每日一句
     Route::get('day/article', 'ArticleController@index');
+    //获取当前周
+    Route::get('weeks', 'ArticleController@getCurWeek');
 
 });
