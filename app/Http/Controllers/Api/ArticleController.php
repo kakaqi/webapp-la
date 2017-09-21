@@ -71,7 +71,7 @@ class ArticleController extends Controller
         } else {
             $data = json_decode($data, true);
         }
-
+        $data['translation'] = preg_replace('/词霸小编/','♪♪♪♪',$data['translation']);
         return [
             'code' => 0,
             'text' => 'success',
