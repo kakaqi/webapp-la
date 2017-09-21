@@ -157,4 +157,30 @@ class ArticleController extends Controller
             'result' => $cur_week
         ];
     }
+
+    public function love( int $id){
+        if( ! $re = Article::find($id)) {
+            return [
+                'code' => 400,
+                'text' => '数据不存在',
+                'result' => ''
+            ];
+        }
+        Article::where('id',$id)->increment('love');
+
+        $data = Article::select(
+            '*',
+            \DB::raw('CONCAT("'.env('APP_URL').'", picture) AS picture'),
+            \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
+            \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
+        )->find($id);
+
+        $redis_key = 'article_'.$data['dateline'];
+        Redis::set($redis_key, json_encode($data));
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' => ''
+        ];
+    }
 }

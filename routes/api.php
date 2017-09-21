@@ -36,5 +36,7 @@ Route::namespace('Api')->group(function () {
     Route::get('day/article', 'ArticleController@index');
     //获取当前周
     Route::get('weeks', 'ArticleController@getCurWeek');
+    //点赞更新
+    Route::patch('article/love/{id}', 'ArticleController@love');
 
 });
