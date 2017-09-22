@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "68d9cd27e837c6f664ac304fa344ed02",
+    "content-hash": "6c077fd4c176f995380917c63d3ddb4f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2601,6 +2601,39 @@
                 "environment"
             ],
             "time": "2016-09-01T10:05:43+00:00"
+        },
+        {
+            "name": "xiang1993/wechatapp-decrypt",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Xiang1993/WechatApp-decrypt.git",
+                "reference": "a2d00e5ec28c7318e6f4bc16912840013f9caf3a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/Xiang1993/WechatApp-decrypt/a2d00e5ec28c7318e6f4bc16912840013f9caf3a.zip",
+                "reference": "a2d00e5ec28c7318e6f4bc16912840013f9caf3a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Xiang\\WechatApp\\Decode\\": "src/decode"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "axf",
+                    "email": "2792938834@qq.com"
+                }
+            ],
+            "description": "微信小程序签名加密",
+            "time": "2017-05-06T08:15:13+00:00"
         }
     ],
     "packages-dev": [

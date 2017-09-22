@@ -13,7 +13,8 @@
         "laravel/tinker": "~1.0",
         "nesbot/carbon": "^1.22",
         "predis/predis": "^1.1",
-        "stichoza/google-translate-php": "^3.2"
+        "stichoza/google-translate-php": "^3.2",
+        "xiang1993/wechatapp-decrypt": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

@@ -29,6 +29,7 @@ class ComposerStaticInite0cb7fe50d953c13f53c3752ecdccbf1
         ),
         'X' => 
         array (
+            'Xiang\\WechatApp\\Decode\\' => 23,
             'XdgBaseDir\\' => 11,
         ),
         'W' => 
@@ -124,6 +125,10 @@ class ComposerStaticInite0cb7fe50d953c13f53c3752ecdccbf1
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'Xiang\\WechatApp\\Decode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -3991,6 +3996,10 @@ class ComposerStaticInite0cb7fe50d953c13f53c3752ecdccbf1
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
+        'Xiang\\WechatApp\\Decode\\ErrorCode' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/ErrorCode.php',
+        'Xiang\\WechatApp\\Decode\\PKCS7Encoder' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/PKCS7Encoder.php',
+        'Xiang\\WechatApp\\Decode\\Prpcrypt' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/Prpcrypt.php',
+        'Xiang\\WechatApp\\Decode\\WXBizDataCrypt' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/wxBizDataCrypt.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

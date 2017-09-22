@@ -158,3 +158,12 @@ function decrypt_ (string $strtodecrypt): string
     return $decrypted_string;
 
 }
+
+/**
+ * 请求过程中因为编码原因+号变成了空格
+ * 需要用下面的方法转换回来
+ */
+function define_str_replace($data)
+{
+    return str_replace(' ','+',$data);
+}

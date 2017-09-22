@@ -37,6 +37,12 @@ Route::namespace('Api')->group(function () {
     //获取当前周
     Route::get('weeks', 'ArticleController@getCurWeek');
     //点赞更新
-    Route::patch('article/love/{id}', 'ArticleController@love');
+    Route::post('article/love/{id}', 'ArticleController@love');
+    //用户信息解密
+//    Route::post('user/decrypt', 'ArticleController@love');
+    //微信用户登录认证
+    Route::post('user/auth', 'WxUserController@userLogin');
+    Route::post('user/decrypt', 'WxUserController@getUserInfo');
+
 
 });
