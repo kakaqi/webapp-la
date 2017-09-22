@@ -7,13 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
+use App\Models\Wxuser;
+
 class ArticleController extends Controller
 {
     public function index(Request $request)
     {
 
         $date = $request->input('date','');
-
+        $openId = $request->input('openId');
         if( $date ) {
             $redis_key = 'article_'.$date;
         } else {
@@ -28,6 +30,8 @@ class ArticleController extends Controller
                 \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
                 \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
             )->where('dateline',$date)->first();
+
+
 
             if( ! $data ) {
                 $ch = curl_init();
@@ -66,6 +70,9 @@ class ArticleController extends Controller
                     \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
                 )->where('dateline',$date)->first();
             }
+            $user = Wxuser::where('openId',$openId)->first();
+            $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $data['id']])->first();
+            $data['is_love'] = $is_love ? 'on' : '';
             Redis::set($redis_key, json_encode($data));
             Redis::expire($redis_key,24*60*60*7);//设置几秒后过期
         } else {
@@ -158,7 +165,17 @@ class ArticleController extends Controller
         ];
     }
 
-    public function love( int $id){
+    public function love( Request $request, int $id){
+
+        $openId = $request->input('openId');
+
+        if( ! $openId ) {
+            return [
+                'code' => 400,
+                'text' => '用户没授权',
+                'result' => ''
+            ];
+        }
         if( ! $re = Article::find($id)) {
             return [
                 'code' => 400,
@@ -166,7 +183,19 @@ class ArticleController extends Controller
                 'result' => ''
             ];
         }
+        $user = Wxuser::where('openId',$openId)->first();
+
+        $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $id])->first();
+        if( $is_love ) {
+            return [
+                'code' => 400,
+                'text' => '已经点赞过了',
+                'result' => ''
+            ];
+        }
+
         Article::where('id',$id)->increment('love');
+        \DB::table('user_article_love')->insert(['user_id' => $user->id, 'article_id' => $id]);
 
         $data = Article::select(
             '*',
@@ -174,7 +203,7 @@ class ArticleController extends Controller
             \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
             \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
         )->find($id);
-
+        $data['is_love'] = 'on';
         $redis_key = 'article_'.$data['dateline'];
         Redis::set($redis_key, json_encode($data));
         return [
