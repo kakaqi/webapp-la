@@ -1,0 +1,19 @@
+{
+    "name": "xiang1993/wechatapp-decrypt",
+    "description": "微信小程序签名加密",
+    "type": "library",
+    "require": {
+        "php": ">5.4"
+    },
+    "authors": [
+        {
+            "name": "axf",
+            "email": "2792938834@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Xiang\\WechatApp\\Decode\\": "src/decode"
+        }
+    }
+}
