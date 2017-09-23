@@ -106,8 +106,9 @@ class ArticleController extends Controller
         $date=date('Y-m-d');  //当前日期
         $first=0; //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
         $w=date('w',strtotime($date));  //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
-        $day = date('Y-m-d',strtotime("$date -".($w ? $w - $first : 6).' days'));
-        $sunday = date('d',strtotime("$date -".($w ? $w - $first : 6).' days'));
+
+        $day = date('Y-m-d',strtotime("$date -".$w.' days'));
+        $sunday = date('d',strtotime("$date -".$w .' days'));
         $monday = date('d',strtotime("$day +1 days"));
         $tuesday = date('d',strtotime("$day +2 days"));
         $wednesday = date('d',strtotime("$day +3 days"));
@@ -115,6 +116,7 @@ class ArticleController extends Controller
         $friday = date('d',strtotime("$day +5 days"));
         $saturday = date('d',strtotime("$day +6 days"));
         $cur_w_d = Carbon::now()->dayOfWeek;
+
         $cur_week = [
             [
                 'id' => 0,
