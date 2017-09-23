@@ -44,5 +44,10 @@ Route::namespace('Api')->group(function () {
     Route::post('user/auth', 'WxUserController@userLogin');
     Route::post('user/decrypt', 'WxUserController@getUserInfo');
 
+    //文章评论
+    Route::post('article/comment/{id}', 'ArticleController@comment');
+    //获取评论
+    Route::get('article/comment', 'ArticleController@getCommet');
+
 
 });

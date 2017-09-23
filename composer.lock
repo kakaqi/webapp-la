@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c077fd4c176f995380917c63d3ddb4f",
+    "content-hash": "51eadb2bd87c8ae238eef48e53e3b853",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2634,6 +2634,42 @@
             ],
             "description": "微信小程序签名加密",
             "time": "2017-05-06T08:15:13+00:00"
+        },
+        {
+            "name": "yankewei/laravel-sensitive",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yankewei/laravel-sensitive.git",
+                "reference": "f1eb1bf119a368baa34303d72e73f50d57cbdb4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/yankewei/laravel-sensitive/f1eb1bf119a368baa34303d72e73f50d57cbdb4d.zip",
+                "reference": "f1eb1bf119a368baa34303d72e73f50d57cbdb4d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yankewei\\LaravelSensitive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yankewei",
+                    "email": "15833997749@163.com"
+                }
+            ],
+            "description": "过滤敏感词汇的laravel包，使用DFA算法",
+            "time": "2017-07-29T04:12:39+00:00"
         }
     ],
     "packages-dev": [

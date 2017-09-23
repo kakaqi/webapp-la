@@ -27,6 +27,10 @@ class ComposerStaticInite0cb7fe50d953c13f53c3752ecdccbf1
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'Y' => 
+        array (
+            'Yankewei\\LaravelSensitive\\' => 26,
+        ),
         'X' => 
         array (
             'Xiang\\WechatApp\\Decode\\' => 23,
@@ -125,6 +129,10 @@ class ComposerStaticInite0cb7fe50d953c13f53c3752ecdccbf1
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'Yankewei\\LaravelSensitive\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yankewei/laravel-sensitive/src',
         ),
         'Xiang\\WechatApp\\Decode\\' => 
         array (
@@ -4000,6 +4008,9 @@ class ComposerStaticInite0cb7fe50d953c13f53c3752ecdccbf1
         'Xiang\\WechatApp\\Decode\\PKCS7Encoder' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/PKCS7Encoder.php',
         'Xiang\\WechatApp\\Decode\\Prpcrypt' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/Prpcrypt.php',
         'Xiang\\WechatApp\\Decode\\WXBizDataCrypt' => __DIR__ . '/..' . '/xiang1993/wechatapp-decrypt/src/decode/wxBizDataCrypt.php',
+        'Yankewei\\LaravelSensitive\\Facades\\Sensitive' => __DIR__ . '/..' . '/yankewei/laravel-sensitive/src/Facades/Sensitive.php',
+        'Yankewei\\LaravelSensitive\\Sensitive' => __DIR__ . '/..' . '/yankewei/laravel-sensitive/src/Sensitive.php',
+        'Yankewei\\LaravelSensitive\\SensitiveServiceProvider' => __DIR__ . '/..' . '/yankewei/laravel-sensitive/src/SensitiveServiceProvider.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

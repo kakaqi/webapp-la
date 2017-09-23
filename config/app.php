@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
 //        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Yankewei\LaravelSensitive\SensitiveServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -226,6 +227,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Sensitive' => Yankewei\LaravelSensitive\Facades\Sensitive::class,
     ],
 
 ];

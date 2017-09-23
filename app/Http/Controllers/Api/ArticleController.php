@@ -8,7 +8,7 @@ use App\Models\Article;
 use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
 use App\Models\Wxuser;
-
+use  Yankewei\LaravelSensitive\Facades\Sensitive;
 class ArticleController extends Controller
 {
     public function index(Request $request)
@@ -70,9 +70,12 @@ class ArticleController extends Controller
                     \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
                 )->where('dateline',$date)->first();
             }
-            $user = Wxuser::where('openId',$openId)->first();
-            $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $data['id']])->first();
-            $data['is_love'] = $is_love ? 'on' : '';
+            if(isset($openId) && !empty($openId)) {
+                $user = Wxuser::where('openId',$openId)->first();
+                $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $data['id']])->first();
+                $data['is_love'] = $is_love ? 'on' : '';
+            }
+
             Redis::set($redis_key, json_encode($data));
             Redis::expire($redis_key,24*60*60*7);//设置几秒后过期
         } else {
@@ -210,6 +213,88 @@ class ArticleController extends Controller
             'code' => 0,
             'text' => 'success',
             'result' => ''
+        ];
+    }
+
+    /**
+     * 文章评论&回复
+     * @param Request $request
+     * @param int $id
+     */
+    public function comment(Request $request, int $id)
+    {
+
+
+        $content = $request->input('content','');
+        $reply_id = $request->input('reply_id', 0);
+        $openId = $request->input('openId', '');
+        $pid = $request->input('pid', 0);
+
+        $validator = \Validator::make($request->input(), [
+            'content' => [
+                'required',
+            ],
+            'openId' => [
+                'required'
+            ]
+        ]);
+        if ($validator->fails()) {
+            return [
+                'code'=>400,
+                'text'=>$validator->errors()->first(),
+                'result'=>'',
+            ];
+        }
+
+        $user = Wxuser::where('openId', $openId)->first();
+
+        if( ! $user ){
+            return [
+                'code'=>400,
+                'text'=>'用户不存在',
+                'result'=>'',
+            ];
+        }
+
+        $interference = ['&', '*'];
+        $data = config('words');
+        Sensitive::interference($interference); //添加干扰因子
+        Sensitive::addwords($data); //需要过滤的敏感词
+        $content = Sensitive::filter($content);
+
+        $data = [
+            'pid' => $pid,
+            'article_id' => $id,
+            'user_id' => $user->id,
+            'reply_id' => $reply_id,
+            'content' => $content,
+            'add_time' => date('Y-m-d H:i:s')
+        ];
+        $res = \DB::table('article_comments')->insert($data);
+
+        if($res) {
+            return [
+                'code'=>0,
+                'text'=>'评论成功',
+                'result'=>'',
+            ];
+        }
+
+        return [
+            'code'=>400,
+            'text'=>'评论失败',
+            'result'=>'',
+        ];
+    }
+
+    public function getCommet(Request $request, $id)
+    {
+        $data = \DB::table('article_comments')->where('article_id', $id)->get();
+
+        return [
+            'code'=>0,
+            'text'=>'success',
+            'result'=> $data,
         ];
     }
 }

@@ -14,7 +14,8 @@
         "nesbot/carbon": "^1.22",
         "predis/predis": "^1.1",
         "stichoza/google-translate-php": "^3.2",
-        "xiang1993/wechatapp-decrypt": "^1.0"
+        "xiang1993/wechatapp-decrypt": "^1.0",
+        "yankewei/laravel-sensitive": "^2.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
