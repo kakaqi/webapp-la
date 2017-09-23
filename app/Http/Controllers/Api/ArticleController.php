@@ -70,11 +70,7 @@ class ArticleController extends Controller
                     \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
                 )->where('dateline',$date)->first();
             }
-            if(isset($openId) && !empty($openId)) {
-                $user = Wxuser::where('openId',$openId)->first();
-                $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $data['id']])->first();
-                $data['is_love'] = $is_love ? 'on' : '';
-            }
+
 
             Redis::set($redis_key, json_encode($data));
             Redis::expire($redis_key,24*60*60*7);//设置几秒后过期
@@ -82,6 +78,13 @@ class ArticleController extends Controller
             $data = json_decode($data, true);
         }
         $data['translation'] = preg_replace('/词霸小编/','♪♪♪♪',$data['translation']);
+
+        if(isset($openId) && !empty($openId)) {
+            $user = Wxuser::where('openId',$openId)->first();
+            $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $data['id']])->first();
+            $data['is_love'] = $is_love ? 'on' : '';
+        }
+        
         return [
             'code' => 0,
             'text' => 'success',
