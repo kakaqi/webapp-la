@@ -83,8 +83,10 @@ class ArticleController extends Controller
             $user = Wxuser::where('openId',$openId)->first();
             $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $data['id']])->first();
             $data['is_love'] = $is_love ? 'on' : '';
+        } else {
+            $data['is_love'] = '';
         }
-        
+
         return [
             'code' => 0,
             'text' => 'success',
