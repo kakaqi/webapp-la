@@ -54,7 +54,7 @@ class WxUserController extends Controller
             Wxuser::create($data);
         } else {
 
-            $data && Wxuser::where('openId', $openId)->update(['openId' => $user_info['openId']]);
+            $data && Wxuser::where('openId', $openId)->update($data);
         }
         return [
             'code' => 0,
