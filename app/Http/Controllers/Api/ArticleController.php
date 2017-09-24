@@ -118,7 +118,13 @@ class ArticleController extends Controller
         $thursday = date('d',strtotime("$day +4 days"));
         $friday = date('d',strtotime("$day +5 days"));
         $saturday = date('d',strtotime("$day +6 days"));
-        $cur_w_d = Carbon::now()->dayOfWeek;
+
+//        if( $request->input('date') == date('Y-m-d')) {
+//            $cur_w_d = Carbon::now()->dayOfWeek;
+//        } else {
+//
+//        }
+
 
         $cur_week = [
             [
@@ -126,49 +132,49 @@ class ArticleController extends Controller
                 'name' => 'Sun',
                 'value' => $sunday,
                 'date' => date('Y-m-').$sunday,
-                'is_cur' => $cur_w_d == 0 ? 1 : 0,
+                'is_cur' => $w == 0 ? 1 : 0,
             ],
             [
                 'id' => 1,
                 'name' => 'Mon',
                 'value' => $monday,
                 'date' => date('Y-m-').$monday,
-                'is_cur' => $cur_w_d == 1 ? 1 : 0,
+                'is_cur' => $w == 1 ? 1 : 0,
             ],
             [
                 'id' => 2,
                 'name' => 'Tue',
                 'value' => $tuesday,
                 'date' => date('Y-m-').$tuesday,
-                'is_cur' => $cur_w_d == 2 ? 1 : 0,
+                'is_cur' => $w == 2 ? 1 : 0,
             ],
             [
                 'id' => 3,
                 'name' => 'Wen',
                 'value' => $wednesday,
                 'date' => date('Y-m-').$wednesday,
-                'is_cur' => $cur_w_d == 3 ? 1 : 0,
+                'is_cur' => $w == 3 ? 1 : 0,
             ],
             [
                 'id' => 4,
                 'name' => 'Thu',
                 'value' => $thursday,
                 'date' => date('Y-m-').$thursday,
-                'is_cur' => $cur_w_d == 4 ? 1 : 0,
+                'is_cur' => $w == 4 ? 1 : 0,
             ],
             [
                 'id' => 5,
                 'name' => 'Fri',
                 'value' => $friday,
                 'date' => date('Y-m-').$friday,
-                'is_cur' => $cur_w_d == 5 ? 1 : 0,
+                'is_cur' => $w == 5 ? 1 : 0,
             ],
             [
                 'id' => 6,
                 'name' => 'Sat',
                 'value' => $saturday,
                 'date' => date('Y-m-').$saturday,
-                'is_cur' => $cur_w_d == 6 ? 1 : 0,
+                'is_cur' => $w == 6 ? 1 : 0,
             ],
         ];
         return [
