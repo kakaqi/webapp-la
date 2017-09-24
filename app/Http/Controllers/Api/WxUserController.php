@@ -23,28 +23,38 @@ class WxUserController extends Controller
      */
     public function store(Request $request)
     {
+        $openId = $request->input('openId');
         $user_info = $request->input('userInfo');
-        if( ! $re = Wxuser::where('openId',$user_info['openId'])->first()) {
-            $re = Wxuser::where('avatarUrl',$user_info['avatarUrl'])->first();
-            if( $re ) {
-                 //更新数据
-                Wxuser::where('avatarUrl', $user_info['avatarUrl'])->update(['openId' => $user_info['openId']]);
-            } else {
-                //添加数据
-                $user_info['nickName'] = json_encode($user_info['nickName']);
-                $data = [
-                    'openId' => isset( $user_info['openId']) ? $user_info['openId']  : '',
-                    'nickName' => isset( $user_info['nickName']) ? $user_info['nickName']  : '',
-                    'gender' => isset( $user_info['gender']) ? $user_info['gender']  : '',
-                    'avatarUrl' => isset( $user_info['avatarUrl']) ? $user_info['avatarUrl']  : '',
-                    'city' => isset( $user_info['city'])  ? $user_info['city']  : '',
-                    'province' => isset( $user_info['province']) ? $user_info['province']  : '',
-                    'country' => isset( $user_info['country']) ? $user_info['country']  : '',
-                    'language' => isset( $user_info['language']) ? $user_info['language']  : ''
-                ];
+        if( ! $openId ) {
+            return [
+                'code' => 400,
+                'text' => 'success',
+                'result' => ''
+            ];
+        }
+        $data = [];
+        if( $user_info ) {
+            $data = [
+                'nickName' => isset( $user_info['nickName']) ? json_encode($user_info['nickName'])  : '',
+                'gender' => isset( $user_info['gender']) ? $user_info['gender']  : '',
+                'avatarUrl' => isset( $user_info['avatarUrl']) ? $user_info['avatarUrl']  : '',
+                'city' => isset( $user_info['city'])  ? $user_info['city']  : '',
+                'province' => isset( $user_info['province']) ? $user_info['province']  : '',
+                'country' => isset( $user_info['country']) ? $user_info['country']  : '',
+                'language' => isset( $user_info['language']) ? $user_info['language']  : ''
+            ];
+        }
 
-                Wxuser::create($data);
-            }
+
+
+
+        if( ! $re = Wxuser::where('openId',$openId)->first()) {
+
+            $data['openId'] = $openId;
+            Wxuser::create($data);
+        } else {
+
+            $data && Wxuser::where('openId', $openId)->update(['openId' => $user_info['openId']]);
         }
         return [
             'code' => 0,
@@ -67,13 +77,12 @@ class WxUserController extends Controller
         $url= sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%",$url,$appid,$secret,$code,$grant_type);
         $data = file_get_contents($url);
         $user_data=json_decode($data,true);
-        $redis_key = sha1($user_data['openid'].'csj'. uniqid());
-        Redis::set($redis_key, $data);
-        Redis::expire($redis_key, 24*60*60*7);//设置一天后过期
+//        $redis_key = sha1($user_data['openid'].'csj');
+//        Redis::set($redis_key, $data);
         return [
             'code' => 0,
             'text' => 'success',
-            'result' => $redis_key,
+            'result' => $user_data,
         ];
     }
 

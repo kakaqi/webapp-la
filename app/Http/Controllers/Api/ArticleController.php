@@ -182,7 +182,7 @@ class ArticleController extends Controller
         if( ! $openId ) {
             return [
                 'code' => 400,
-                'text' => '用户没授权',
+                'text' => '用户参数错误',
                 'result' => ''
             ];
         }
