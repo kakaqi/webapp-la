@@ -101,10 +101,10 @@ class ArticleController extends Controller
      */
     public function getCurWeek(Request $request)
     {
-
+        $now_date = date('Y-m-d');
         $date = $request->input('date','');
         if( !$date) {
-            $date = date('Y-m-d');  //当前日期
+            $date = $now_date;  //当前日期
         }
 
         $first=0; //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
@@ -133,6 +133,7 @@ class ArticleController extends Controller
                 'value' => $sunday,
                 'date' => date('Y-m-').$sunday,
                 'is_cur' => $w == 0 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$sunday ? 'disabled' : ''
             ],
             [
                 'id' => 1,
@@ -140,6 +141,7 @@ class ArticleController extends Controller
                 'value' => $monday,
                 'date' => date('Y-m-').$monday,
                 'is_cur' => $w == 1 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$monday ? 'disabled' : ''
             ],
             [
                 'id' => 2,
@@ -147,6 +149,7 @@ class ArticleController extends Controller
                 'value' => $tuesday,
                 'date' => date('Y-m-').$tuesday,
                 'is_cur' => $w == 2 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$tuesday ? 'disabled' : ''
             ],
             [
                 'id' => 3,
@@ -154,6 +157,7 @@ class ArticleController extends Controller
                 'value' => $wednesday,
                 'date' => date('Y-m-').$wednesday,
                 'is_cur' => $w == 3 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$wednesday ? 'disabled' : ''
             ],
             [
                 'id' => 4,
@@ -161,6 +165,7 @@ class ArticleController extends Controller
                 'value' => $thursday,
                 'date' => date('Y-m-').$thursday,
                 'is_cur' => $w == 4 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$thursday ? 'disabled' : ''
             ],
             [
                 'id' => 5,
@@ -168,6 +173,7 @@ class ArticleController extends Controller
                 'value' => $friday,
                 'date' => date('Y-m-').$friday,
                 'is_cur' => $w == 5 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$friday ? 'disabled' : ''
             ],
             [
                 'id' => 6,
@@ -175,6 +181,7 @@ class ArticleController extends Controller
                 'value' => $saturday,
                 'date' => date('Y-m-').$saturday,
                 'is_cur' => $w == 6 ? 1 : 0,
+                'is_disabled' => $now_date < date('Y-m-').$saturday ? 'disabled' : ''
             ],
         ];
         return [
