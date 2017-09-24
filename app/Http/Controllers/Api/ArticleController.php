@@ -99,11 +99,14 @@ class ArticleController extends Controller
      * 获取当前周
      * @return array
      */
-    public function getCurWeek()
+    public function getCurWeek(Request $request)
     {
 
+        $date = $request->input('date','');
+        if( !$date) {
+            $date = date('Y-m-d');  //当前日期
+        }
 
-        $date=date('Y-m-d');  //当前日期
         $first=0; //$first =1 表示每周星期一为开始日期 0表示每周日为开始日期
         $w=date('w',strtotime($date));  //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
 
