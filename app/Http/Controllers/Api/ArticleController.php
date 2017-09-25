@@ -339,8 +339,12 @@ class ArticleController extends Controller
      */
     public function getCommet(Request $request, $id)
     {
-        $data = \DB::table('article_comments')->where('article_id', $id)->where('status', 1)->orderby('add_time','asc')->get()->toArray();
-        foreach ($data as &$v) {
+        $page_num = (int) $request->input('page_num', env('PAGE_NUM', 10));
+        
+        $db = \DB::table('article_comments')->where('article_id', $id)->where('status', 1)->orderby('add_time','asc');
+        $data = $db->paginate($page_num)->toArray();
+
+        foreach ($data['data'] as &$v) {
             $v = (array)$v;
             $v['user_name'] && $v['user_name'] = json_decode($v['user_name']);
             $v['replay_name'] && $v['replay_name'] = json_decode($v['replay_name']);
@@ -348,7 +352,7 @@ class ArticleController extends Controller
         }
         unset($v);
 
-        $data = list_to_tree($data, 'id','pid');
+        $data['data'] = list_to_tree($data['data'], 'id','pid');
         return [
             'code'=>0,
             'text'=>'success',
