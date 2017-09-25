@@ -401,4 +401,13 @@ class ArticleController extends Controller
             'result'=>'',
         ];
     }
+
+    public function hide(Request $request, $id){
+        \DB::table('article_comments')->where('id', $id)->update(['status' => 0]);
+        return [
+            'code'=>0,
+            'text'=>'操作成功',
+            'result'=>'',
+        ];
+    }
 }
