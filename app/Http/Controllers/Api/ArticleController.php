@@ -60,7 +60,7 @@ class ArticleController extends Controller
                 $response['picture2'] = $picture_path.'big_'.$pre_name;
                 $response['fenxiang_img'] = $picture_path.'fenxiang_'.$pre_name;
 
-                unset($response['sid'],$response['tts'],$response['caption'],$response['s_pv'],$response['sp_pv'],$response['tags']);
+                unset($response['sid'],$response['tts'],$response['caption'],$response['s_pv'],$response['sp_pv'],$response['tags'],$response['love']);
                 Article::create($response);
 
                 $data = Article::select(
@@ -310,6 +310,12 @@ class ArticleController extends Controller
         ];
     }
 
+    /**
+     * 获取文章评论
+     * @param Request $request
+     * @param $id 文章id
+     * @return array
+     */
     public function getCommet(Request $request, $id)
     {
         $data = \DB::table('article_comments')->where('article_id', $id)->get();
@@ -318,6 +324,48 @@ class ArticleController extends Controller
             'code'=>0,
             'text'=>'success',
             'result'=> $data,
+        ];
+    }
+
+    public function share(Request $request, $id) {
+        $openId = $request->input('openId');
+        if( ! $openId ) {
+            return [
+              'code' => 400,
+              'text' => '没有获取到用户登录状态',
+              'result' => ''
+            ];
+        }
+
+        $user = Wxuser::where('openId', $openId)->first();
+
+        if( ! $user ){
+            return [
+                'code'=>400,
+                'text'=>'用户不存在',
+                'result'=>'',
+            ];
+        }
+
+        $data = [
+            'article_id' => $id,
+            'user_id' => $user->id,
+            'add_time' => date('Y-m-d H:i:s')
+        ];
+        $res = \DB::table('article_share')->insert($data);
+        if( $res ) {
+            Article::where('id',$id)->increment('shares');
+            return [
+                'code'=>0,
+                'text'=>'操作成功',
+                'result'=>'',
+            ];
+        }
+
+        return [
+            'code'=>400,
+            'text'=>'操作识别',
+            'result'=>'',
         ];
     }
 }
