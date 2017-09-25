@@ -279,6 +279,24 @@ class ArticleController extends Controller
             ];
         }
 
+        if( $user->id == $reply_id) {
+            return [
+                'code'=>400,
+                'text'=>'自己不能回复自己',
+                'result'=>'',
+            ];
+        }
+        if( $reply_id ) {
+            $reply_user = Wxuser::where('id', $reply_id)->first();
+            if( ! $reply_user ){
+                return [
+                    'code'=>400,
+                    'text'=>'回复用户不存在',
+                    'result'=>'',
+                ];
+            }
+        }
+
         $interference = ['&', '*'];
         $data = config('words');
         Sensitive::interference($interference); //添加干扰因子
@@ -289,8 +307,11 @@ class ArticleController extends Controller
             'pid' => $pid,
             'article_id' => $id,
             'user_id' => $user->id,
+            'user_name' => $user->nickName,
+            'user_img' => $user->avatarUrl,
             'reply_id' => $reply_id,
-            'content' => $content,
+            'replay_name' => $reply_id ? $reply_user->nickName : '',
+            'content' => json_encode($content),
             'add_time' => date('Y-m-d H:i:s')
         ];
         $res = \DB::table('article_comments')->insert($data);
@@ -318,8 +339,16 @@ class ArticleController extends Controller
      */
     public function getCommet(Request $request, $id)
     {
-        $data = \DB::table('article_comments')->where('article_id', $id)->get();
+        $data = \DB::table('article_comments')->where('article_id', $id)->where('status', 1)->orderby('add_time','asc')->get()->toArray();
+        foreach ($data as &$v) {
+            $v = (array)$v;
+            $v['user_name'] && $v['user_name'] = json_decode($v['user_name']);
+            $v['replay_name'] && $v['replay_name'] = json_decode($v['replay_name']);
+            $v['content'] && $v['content'] = json_decode($v['content']);
+        }
+        unset($v);
 
+        $data = list_to_tree($data, 'id','pid');
         return [
             'code'=>0,
             'text'=>'success',
@@ -364,7 +393,7 @@ class ArticleController extends Controller
 
         return [
             'code'=>400,
-            'text'=>'操作识别',
+            'text'=>'操作失败',
             'result'=>'',
         ];
     }

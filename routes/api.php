@@ -47,7 +47,7 @@ Route::namespace('Api')->group(function () {
     //文章评论
     Route::post('article/comment/{id}', 'ArticleController@comment');
     //获取评论
-    Route::get('article/comment', 'ArticleController@getCommet');
+    Route::get('article/comment/{id}', 'ArticleController@getCommet');
     //文章分享统计
     Route::post('article/share/{id}', 'ArticleController@share');
 
