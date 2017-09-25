@@ -340,7 +340,7 @@ class ArticleController extends Controller
     public function getCommet(Request $request, $id)
     {
         $page_num = (int) $request->input('page_num', env('PAGE_NUM', 10));
-        
+
         $db = \DB::table('article_comments')->where('article_id', $id)->where('status', 1)->orderby('add_time','asc');
         $data = $db->paginate($page_num)->toArray();
 
