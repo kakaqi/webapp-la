@@ -54,5 +54,8 @@ Route::namespace('Api')->group(function () {
     //文章分享统计
     Route::post('article/share/{id}', 'ArticleController@share');
 
+    //有道查词
+    Route::get('youdao', 'TranslateController@youdao');
+
 
 });
