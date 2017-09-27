@@ -49,7 +49,7 @@ class dayArticle extends Command
 
                 $response = json_decode($response, true);
 
-                $picture_path = 'public/article_img/';
+                $picture_path = '/www/webapp-la/public/article_img/';
                 $picture_path2 = 'article_img/';
                 $pre_name = $date .'.jpg';
 
