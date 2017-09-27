@@ -87,6 +87,7 @@ class ArticleController extends Controller
             $data['is_love'] = '';
         }
 
+        Article::where('id',$data['id'])->increment('views');
         return [
             'code' => 0,
             'text' => 'success',
