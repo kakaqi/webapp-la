@@ -410,4 +410,9 @@ class ArticleController extends Controller
             'result'=>'',
         ];
     }
+
+    public function test()
+    {
+        return '6666';
+    }
 }

@@ -39,6 +39,7 @@
                         <th>国家</th>
                         <th>语言</th>
                         <th>添加时间</th>
+                        <th>更新时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -54,6 +55,7 @@
                         <td>{{$item['country']}}</td>
                         <td>{{$item['language']}}</td>
                         <td>{{$item['created_at']}}</td>
+                        <td>{{$item['updated_at']}}</td>
                         <td>-//-</td>
                     </tr>
                     @endforeach
