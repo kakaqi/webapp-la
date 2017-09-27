@@ -124,4 +124,23 @@ class TranslateController extends Controller
         //file_put_contents($save_path.$pre_name, $response);
 
     }
+
+    public function youdao(Request $request)
+    {
+        $q = $request->input('q','');
+        $from = $request->input('from','zh-CHS');
+        $to = $request->input('to','EN');
+        $appKey = env('YOUDAO_APPKEY');
+        $salt = rand();
+        $youdao_secretkey = env('YOUDAO_SECRETKEY');
+
+        $sign = strtoupper( md5($appKey.$q.$salt.$youdao_secretkey));
+        $param = '?q='.urlencode($q).'&from='.$from.'&to='.$to.'&appKey='.$appKey.'&salt='.$salt.'&sign='.$sign;
+        $url = env('YOUDAO_API_URL').$param;
+        $res = json_decode(file_get_contents($url) ,true);
+        if($res['errorCode'] == 0) {
+
+        }
+        return $res;
+    }
 }
