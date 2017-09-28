@@ -359,6 +359,12 @@ class ArticleController extends Controller
                 $v['replay_name'] = '匿名'.substr(md5($v['reply_id']),0,5);
             }
 
+            if( $v['user_id'] == 1) {
+                $v['user_name'] = '多小编';
+            }
+            if( $v['reply_id'] == 1) {
+                $v['replay_name'] = '多小编';
+            }
             $v['content'] && $v['content'] = json_decode($v['content']);
 
         }
