@@ -347,9 +347,20 @@ class ArticleController extends Controller
 
         foreach ($data['data'] as &$v) {
             $v = (array)$v;
-            $v['user_name'] && $v['user_name'] = json_decode($v['user_name']);
-            $v['replay_name'] && $v['replay_name'] = json_decode($v['replay_name']);
+            if( $v['user_name']) {
+                $v['user_name'] = json_decode($v['user_name']);
+            } else {
+                $v['user_name'] = '匿名'.substr(md5($v['user_id']),0,6);
+            }
+
+            if( $v['replay_name']) {
+                $v['replay_name'] = json_decode($v['replay_name']);
+            } else {
+                $v['replay_name'] = '匿名'.substr(md5($v['reply_id']),0,6);
+            }
+
             $v['content'] && $v['content'] = json_decode($v['content']);
+
         }
         unset($v);
 

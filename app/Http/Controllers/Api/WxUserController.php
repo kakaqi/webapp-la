@@ -116,4 +116,8 @@ class WxUserController extends Controller
             'result' => json_decode($data, true)
         ];
     }
+
+    public function getAccessToken() {
+
+    }
 }
