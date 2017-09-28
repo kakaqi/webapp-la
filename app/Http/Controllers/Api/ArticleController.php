@@ -88,6 +88,7 @@ class ArticleController extends Controller
         }
 
         Article::where('id',$data['id'])->increment('views');
+        $data['translation'] = '';
         return [
             'code' => 0,
             'text' => 'success',
@@ -342,7 +343,7 @@ class ArticleController extends Controller
     {
         $page_num = (int) $request->input('page_num', env('PAGE_NUM', 1000));
 
-        $db = \DB::table('article_comments')->where('article_id', $id)->where('status', 1)->orderby('add_time','asc');
+        $db = \DB::table('article_comments')->where('article_id', $id)->where('status', 1)->orderby('sort','asc');
         $data = $db->paginate($page_num)->toArray();
 
         foreach ($data['data'] as &$v) {
