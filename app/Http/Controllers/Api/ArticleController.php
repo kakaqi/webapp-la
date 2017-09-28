@@ -361,7 +361,7 @@ class ArticleController extends Controller
 
             if( $v['user_id'] == 1) {
                 $v['user_name'] = '多小编';
-                $v['user_img'] = '';
+                $v['user_img'] = env('APP_URL').'image/xiaobian.png';
             }
             if( $v['reply_id'] == 1) {
                 $v['replay_name'] = '多小编';
