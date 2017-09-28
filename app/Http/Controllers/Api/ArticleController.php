@@ -350,13 +350,13 @@ class ArticleController extends Controller
             if( $v['user_name']) {
                 $v['user_name'] = json_decode($v['user_name']);
             } else {
-                $v['user_name'] = '匿名'.substr(md5($v['user_id']),0,6);
+                $v['user_name'] = '匿名'.substr(md5($v['user_id']),0,5);
             }
 
             if( $v['replay_name']) {
                 $v['replay_name'] = json_decode($v['replay_name']);
             } else {
-                $v['replay_name'] = '匿名'.substr(md5($v['reply_id']),0,6);
+                $v['replay_name'] = '匿名'.substr(md5($v['reply_id']),0,5);
             }
 
             $v['content'] && $v['content'] = json_decode($v['content']);

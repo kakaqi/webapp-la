@@ -46,6 +46,9 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         //获取单条语言数据
         Route::get('languages/{id}', 'LanguageController@show');
 
+        //文章列表（每日一句）
+        Route::get('articles', 'ArticleController@index');
+
 
     });
 

@@ -26,12 +26,12 @@
                 <div class="modal">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            {{--<div class="modal-header">--}}
-                                {{--<button type="button" class="close close_btn" data-dismiss="modal" aria-label="Close">--}}
-                                    {{--<span aria-hidden="true">&times;</span>--}}
-                                {{--</button>--}}
-                                {{--<h4 class="modal-title">添加语言</h4>--}}
-                            {{--</div>--}}
+                            <div class="modal-header">
+                                <button type="button" class="close close_btn" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">添加语言</h4>
+                            </div>
                             <div class="modal-body">
                                 <!-- form start -->
                                 <form class="form-horizontal">
@@ -85,7 +85,7 @@
             </div>
             <div class="box-header">
                 {{--<h3 class="box-title">Hover Data Table</h3>--}}
-                <button type="button" class="btn btn-info" id="add_lang_btn">添加</button>
+                {{--<button type="button" class="btn btn-info" id="add_lang_btn">添加</button>--}}
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -93,9 +93,18 @@
                     <thead>
                     <tr>
                         <th>id</th>
-                        <th>语言表示</th>
-                        <th>语言名称</th>
-                        <th>是否可用</th>
+                        <th>日期</th>
+                        <th>主图片</th>
+                        <th>图片2</th>
+                        <th>分享图片</th>
+                        <th width="8%">内容（英文）</th>
+                        <th width="8%">内容（中文）</th>
+                        <th width="8%">点评</th>
+                        <th>喜欢</th>
+                        <th>分享</th>
+                        <th>查看</th>
+                        <th>添加时间</th>
+                        <th>更新时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -103,16 +112,23 @@
                     @foreach($data as $item)
                     <tr>
                         <td>{{$item['id']}}</td>
-                        <td>{{$item['name']}}</td>
-                        <td>{{$item['title']}}</td>
+                        <td>{{$item['dateline']}}</td>
+                        <td><img style="height: 64px;width: auto" src="{{$item['picture']}}"/></td>
+                        <td><img style="height: 64px;width: auto" src="{{$item['picture2']}}"/></td>
+                        <td><img style="height: 64px;width: auto" src="{{$item['fenxiang_img']}}"/></td>
+                        <td>{{$item['content']}}</td>
+                        <td>{{$item['note']}}</td>
+                        <td>{{$item['translation']}}</td>
+                        <td>{{$item['love']}}</td>
+                        <td>{{$item['shares']}}</td>
+                        <td>{{$item['views']}}</td>
+                        <td>{{$item['created_at']}}</td>
+                        <td>{{$item['updated_at']}}</td>
+
                         <td>
-                            @if($item['status'])
-                                可用
-                            @else
-                                不可用
-                            @endif
+                            {{--<button type="button" class="btn btn-success edit-btn" data-id="{{$item['id']}}">编辑</button>--}}
+                            {{--<button type="button" class="btn btn-danger del-btn" data-id="{{$item['id']}}">删除</button>--}}
                         </td>
-                        <td><button type="button" class="btn btn-success edit-btn" data-id="{{$item['id']}}">编辑</button>   <button type="button" class="btn btn-danger del-btn" data-id="{{$item['id']}}">删除</button></td>
                     </tr>
                     @endforeach
                     </tbody>
