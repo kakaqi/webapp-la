@@ -66,12 +66,27 @@ class dayArticle extends Command
                 unset($response['sid'],$response['tts'],$response['caption'],$response['s_pv'],$response['sp_pv'],$response['tags'],$response['love']);
                 Article::create($response);
 
+
                 $data = Article::select(
                     '*',
                     \DB::raw('CONCAT("'.env('APP_URL').'", picture) AS picture'),
                     \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
                     \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
                 )->where('dateline',$date)->first();
+                //默认添加一条评论数据
+                $default_comment_data = [
+                    'pid' => 0,
+                    'article_id' => $data['id'],
+                    'user_id' => 1,
+                    'user_name' => '多小编',
+                    'user_img' => '',
+                    'reply_id' => 0,
+                    'replay_name' => '',
+                    'content' => json_encode(preg_replace('/词霸小编：/','',$data['translation'])),
+                    'add_time' => date('Y-m-d H:i:s')
+                ];
+                \DB::table('article_comments')->insert($default_comment_data);
+
             }
 
             Redis::set($redis_key, json_encode($data));
