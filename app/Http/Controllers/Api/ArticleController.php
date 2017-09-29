@@ -61,22 +61,46 @@ class ArticleController extends Controller
                 $response['fenxiang_img'] = $picture_path.'fenxiang_'.$pre_name;
 
                 unset($response['sid'],$response['tts'],$response['caption'],$response['s_pv'],$response['sp_pv'],$response['tags'],$response['love']);
-                Article::create($response);
 
-                $data = Article::select(
-                    '*',
-                    \DB::raw('CONCAT("'.env('APP_URL').'", picture) AS picture'),
-                    \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
-                    \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
-                )->where('dateline',$date)->first();
+                $res = Article::create($response);
+
+                if( $res->id ) {
+                    $data = Article::select(
+                        '*',
+                        \DB::raw('CONCAT("'.env('APP_URL').'", picture) AS picture'),
+                        \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
+                        \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
+                    )->where('dateline',$date)->first();
+                    //默认添加一条评论数据
+                    $default_comment_data = [
+                        'pid' => 0,
+                        'article_id' => $data['id'],
+                        'user_id' => 1,
+                        'user_name' => '多小编',
+                        'user_img' => '',
+                        'reply_id' => 0,
+                        'replay_name' => '',
+                        'content' => json_encode(preg_replace('/词霸小编：/','',$data['translation'])),
+                        'add_time' => date('Y-m-d H:i:s'),
+                        'sort' => 1
+                    ];
+                    \DB::table('article_comments')->insert($default_comment_data);
+                } else {
+                    return [
+                        'code' => 0,
+                        'text' => 'success',
+                        'result' => ''
+                    ];
+                }
             }
-
 
             Redis::set($redis_key, json_encode($data));
             Redis::expire($redis_key,24*60*60*7);//设置几秒后过期
+
         } else {
             $data = json_decode($data, true);
         }
+
         $data['translation'] = preg_replace('/词霸小编/','♪♪♪♪',$data['translation']);
 
         if(isset($openId) && !empty($openId)) {
