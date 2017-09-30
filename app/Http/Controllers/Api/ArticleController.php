@@ -46,21 +46,18 @@ class ArticleController extends Controller
                 curl_close($ch);
 
                 $response = json_decode($response, true);
+                unset($response['sid'],$response['tts'],$response['caption'],$response['s_pv'],$response['sp_pv'],$response['tags'],$response['love']);
+                $response['date'] = $date;
+                //图片保存到服务器使用队列处理
+                $msg = json_encode($response);
+                RabbitmqController::publishMsg([env('MQ_EXCHANGES'),env('MQ_QUEUE3'),env('MQ_ROUTING_KEY3'),$msg]);
+                unset($response['date']);
 
                 $picture_path = 'article_img/';
                 $pre_name = $date .'.jpg';
-
-                $cmd = '/usr/bin/wget  -O  '.$picture_path.$pre_name.' "'.$response['picture'].'"';
-                exec($cmd, $out);
-                $cmd = '/usr/bin/wget  -O  '.$picture_path.'big_'.$pre_name.' "'.$response['picture2'].'"';
-                exec($cmd, $out);
-                $cmd = '/usr/bin/wget  -O  '.$picture_path.'fenxiang_'.$pre_name.' "'.$response['fenxiang_img'].'"';
-                exec($cmd, $out);
                 $response['picture'] = $picture_path.$pre_name;
                 $response['picture2'] = $picture_path.'big_'.$pre_name;
                 $response['fenxiang_img'] = $picture_path.'fenxiang_'.$pre_name;
-
-                unset($response['sid'],$response['tts'],$response['caption'],$response['s_pv'],$response['sp_pv'],$response['tags'],$response['love']);
 
                 $res = Article::create($response);
 
@@ -92,6 +89,7 @@ class ArticleController extends Controller
                         'result' => ''
                     ];
                 }
+
             }
 
             Redis::set($redis_key, json_encode($data));
@@ -235,29 +233,9 @@ class ArticleController extends Controller
                 'result' => ''
             ];
         }
-        $user = Wxuser::where('openId',$openId)->first();
-
-        $is_love = \DB::table('user_article_love')->where(['user_id' => $user->id, 'article_id' => $id])->first();
-        if( $is_love ) {
-            return [
-                'code' => 400,
-                'text' => '已经点赞过了',
-                'result' => ''
-            ];
-        }
-
-        Article::where('id',$id)->increment('love');
-        \DB::table('user_article_love')->insert(['user_id' => $user->id, 'article_id' => $id]);
-
-        $data = Article::select(
-            '*',
-            \DB::raw('CONCAT("'.env('APP_URL').'", picture) AS picture'),
-            \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
-            \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
-        )->find($id);
-        $data['is_love'] = 'on';
-        $redis_key = 'article_'.$data['dateline'];
-        Redis::set($redis_key, json_encode($data));
+        //文章点赞队列处理
+        $msg = json_encode(['openId' => $openId, 'id' => $id]);
+        RabbitmqController::publishMsg([env('MQ_EXCHANGES'),env('MQ_QUEUE4'),env('MQ_ROUTING_KEY4'),$msg]);
         return [
             'code' => 0,
             'text' => 'success',

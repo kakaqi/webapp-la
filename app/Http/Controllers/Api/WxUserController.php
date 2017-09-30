@@ -25,37 +25,8 @@ class WxUserController extends Controller
     {
         $openId = $request->input('openId');
         $user_info = $request->input('userInfo');
-        if( ! $openId ) {
-            return [
-                'code' => 400,
-                'text' => 'success',
-                'result' => ''
-            ];
-        }
-        $data = [];
-        if( $user_info ) {
-            $data = [
-                'nickName' => isset( $user_info['nickName']) ? json_encode($user_info['nickName'])  : '',
-                'gender' => isset( $user_info['gender']) ? $user_info['gender']  : '',
-                'avatarUrl' => isset( $user_info['avatarUrl']) ? $user_info['avatarUrl']  : '',
-                'city' => isset( $user_info['city'])  ? $user_info['city']  : '',
-                'province' => isset( $user_info['province']) ? $user_info['province']  : '',
-                'country' => isset( $user_info['country']) ? $user_info['country']  : '',
-                'language' => isset( $user_info['language']) ? $user_info['language']  : ''
-            ];
-        }
-
-
-
-
-        if( ! $re = Wxuser::where('openId',$openId)->first()) {
-
-            $data['openId'] = $openId;
-            Wxuser::create($data);
-        } else {
-
-            $data && Wxuser::where('openId', $openId)->update($data);
-        }
+        $msg = json_encode(['openId' => $openId,'user_info' => $user_info]);
+        RabbitmqController::publishMsg([env('MQ_EXCHANGES'),env('MQ_QUEUE1'),env('MQ_ROUTING_KEY1'),$msg]);
         return [
             'code' => 0,
             'text' => 'success',

@@ -8,6 +8,7 @@ use Stichoza\GoogleTranslate\TranslateClient;
 use Illuminate\Support\Facades\File;
 use App\Libs as libs;
 
+
 class TranslateController extends Controller
 {
     /**
@@ -18,6 +19,7 @@ class TranslateController extends Controller
     public function index(Request $request)
     {
 
+        $openId = $request->input('openId');
         $source_lan = $request->input('source_lan','zh-CN');//原始语言
         $target_lan = $request->input('target_lan','en');//目标语言
         $content = $request->input('content','');//翻译内容
@@ -30,7 +32,17 @@ class TranslateController extends Controller
             $obj->setTarget($target_lan);
             $res = $obj->translate($content);
         }
-
+        if( $openId ) {
+            $data = [
+                'openId' => $openId,
+                'source_lan' => $source_lan,
+                'target_lan' => $target_lan,
+                'source_con' => $content,
+                'target_con' => $res,
+            ];
+            $msg = json_encode($data);
+            RabbitmqController::publishMsg([env('MQ_EXCHANGES'),env('MQ_QUEUE2'),env('MQ_ROUTING_KEY2'),$msg]);
+        }
         return [
             'code'=>0,
             'text'=> 'success',
