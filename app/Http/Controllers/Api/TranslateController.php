@@ -155,4 +155,48 @@ class TranslateController extends Controller
         }
         return $res;
     }
+
+    public function getUserLocalTranslation(Request $request)
+    {
+        /*$openId = $request->input('openId');
+        $lishi = $request->input('lishi');
+        if( $openId ) {
+            var_export($lishi);
+        }*/
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' =>''
+        ];
+    }
+
+    public function getUserTranslation(Request $request)
+    {
+        /*$openId = $request->input('openId');
+        $lishi = $request->input('lishi');
+        if( $openId ) {
+            var_export($lishi);
+        }*/
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' =>''
+        ];
+    }
+
+    public function deleteTranslation(Request $request, $id) {
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' =>''
+        ];
+    }
+
+    public function removeTranslation(Request $request) {
+        return [
+            'code' => 0,
+            'text' => 'success',
+            'result' =>''
+        ];
+    }
 }

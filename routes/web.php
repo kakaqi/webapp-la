@@ -49,6 +49,9 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         //文章列表（每日一句）
         Route::get('articles', 'ArticleController@index');
 
+        //文章列表（每日一句）
+        Route::get('translation', 'TranslationController@index');
+
 
     });
 

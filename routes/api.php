@@ -57,5 +57,14 @@ Route::namespace('Api')->group(function () {
     //有道查词
     Route::get('youdao', 'TranslateController@youdao');
 
+    //获取用户服务器的翻译
+    Route::post('lishi', 'TranslateController@getUserTranslation');
 
+    //获取用户本地的翻译历史
+    Route::post('lishi/local', 'TranslateController@getUserLocalTranslation');
+
+    //删除历史翻译
+    Route::delete('lishi/{id}', 'TranslateController@deleteTranslation');
+    //清除历史翻译
+    Route::delete('lishi', 'TranslateController@removeTranslation');
 });
