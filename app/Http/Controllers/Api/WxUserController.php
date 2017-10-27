@@ -102,7 +102,7 @@ class WxUserController extends Controller
             ];
         }
 
-        $re = Wxuser::where()->increment('open_pay_page');
+        $re = Wxuser::where('openId',$openId)->increment('open_pay_page');
 
         if($re) {
             return  [
@@ -128,7 +128,7 @@ class WxUserController extends Controller
             ];
         }
 
-        $re = Wxuser::where()->increment('save_pay_image');
+        $re = Wxuser::where('openId',$openId)->increment('save_pay_image');
 
         if($re) {
             return  [
