@@ -91,4 +91,56 @@ class WxUserController extends Controller
     public function getAccessToken() {
 
     }
+
+    public function openPayPage(Request $request){
+        $openId = $request->input('openId');
+        if( $openId ) {
+            return  [
+                'code' => 400,
+                'text' => '没有获取到用户登录状态',
+                'result' => ''
+            ];
+        }
+
+        $re = Wxuser::where()->increment('open_pay_page');
+
+        if($re) {
+            return  [
+                'code' => 0,
+                'text' => '成功',
+                'result' => ''
+            ];
+        }
+        return  [
+            'code' => 400,
+            'text' => '失败',
+            'result' => ''
+        ];
+    }
+
+    public function savePayImage(Request $request){
+        $openId = $request->input('openId');
+        if( $openId ) {
+            return  [
+                'code' => 400,
+                'text' => '没有获取到用户登录状态',
+                'result' => ''
+            ];
+        }
+
+        $re = Wxuser::where()->increment('save_pay_image');
+
+        if($re) {
+            return  [
+                'code' => 0,
+                'text' => '成功',
+                'result' => ''
+            ];
+        }
+        return  [
+            'code' => 400,
+            'text' => '失败',
+            'result' => ''
+        ];
+    }
 }

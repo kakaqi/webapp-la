@@ -67,4 +67,7 @@ Route::namespace('Api')->group(function () {
     Route::delete('lishi/{id}', 'TranslateController@deleteTranslation');
     //清除历史翻译
     Route::delete('lishi', 'TranslateController@removeTranslation');
+
+    Route::get('pay/open', 'WxUserController@openPayPage');
+    Route::get('pay/save', 'WxUserController@savePayImage');
 });
