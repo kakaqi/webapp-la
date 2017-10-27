@@ -135,79 +135,100 @@ class ArticleController extends Controller
         $w=date('w',strtotime($date));  //获取当前周的第几天 周日是 0 周一到周六是 1 - 6
 
         $day = date('Y-m-d',strtotime("$date -".$w.' days'));
-        $sunday = date('d',strtotime("$date -".$w .' days'));
-        $monday = date('d',strtotime("$day +1 days"));
-        $tuesday = date('d',strtotime("$day +2 days"));
-        $wednesday = date('d',strtotime("$day +3 days"));
-        $thursday = date('d',strtotime("$day +4 days"));
-        $friday = date('d',strtotime("$day +5 days"));
-        $saturday = date('d',strtotime("$day +6 days"));
+        $year_month = date('Y-m-',strtotime($date));
 
-//        if( $request->input('date') == date('Y-m-d')) {
-//            $cur_w_d = Carbon::now()->dayOfWeek;
-//        } else {
-//
-//        }
+        $_0 = strtotime("$date -".$w .' days');
+        $_0_day = date('d', $_0);
+        $_0_date = date('Y-m-d',$_0);
+        //$sunday = date('d',strtotime("$date -".$w .' days'));
+        $_1 = strtotime("$day +1 days");
+        $_1_day = date('d',$_1);
+        $_1_date = date('Y-m-d',$_1);
 
+        //$monday = date('d',strtotime("$day +1 days"));
+        $_2 = strtotime("$day +2 days");
+        $_2_day = date('d',$_2);
+        $_2_date = date('Y-m-d',$_2);
+
+        //$tuesday = date('d',strtotime("$day +2 days"));
+        $_3 = strtotime("$day +3 days");
+        $_3_day = date('d', $_3);
+        $_3_date = date('Y-m-d',$_3);
+
+        //$wednesday = date('d',strtotime("$day +3 days"));
+        $_4 = strtotime("$day +4 days");
+        $_4_day = date('d', $_4);
+        $_4_date = date('Y-m-d',$_4);
+
+        //$thursday = date('d',strtotime("$day +4 days"));
+        $_5 = strtotime("$day +5 days");
+        $_5_day = date('d',$_5);
+        $_5_date = date('Y-m-d', $_5);
+
+        //$friday = date('d',strtotime("$day +5 days"));
+        $_6 = strtotime("$day +6 days");
+        $_6_day = date('d',$_6);
+        $_6_date = date('Y-m-d', $_6);
 
         $cur_week = [
             [
                 'id' => 0,
                 'name' => 'Sun',
-                'value' => $sunday,
-                'date' => date('Y-m-').$sunday,
+                'value' => $_0_day,
+                'date' => $_0_date,
                 'is_cur' => $w == 0 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$sunday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_0_date ? 'disabled' : ''
             ],
             [
                 'id' => 1,
                 'name' => 'Mon',
-                'value' => $monday,
-                'date' => date('Y-m-').$monday,
+                'value' => $_1_day,
+                'date' => $_1_date,
                 'is_cur' => $w == 1 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$monday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_1_date ? 'disabled' : ''
             ],
             [
                 'id' => 2,
                 'name' => 'Tue',
-                'value' => $tuesday,
-                'date' => date('Y-m-').$tuesday,
+                'value' => $_2_day,
+                'date' => $_2_date,
                 'is_cur' => $w == 2 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$tuesday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_2_date ? 'disabled' : ''
             ],
             [
                 'id' => 3,
                 'name' => 'Wen',
-                'value' => $wednesday,
-                'date' => date('Y-m-').$wednesday,
+                'value' => $_3_day,
+                'date' => $_3_date,
                 'is_cur' => $w == 3 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$wednesday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_3_date ? 'disabled' : ''
             ],
             [
                 'id' => 4,
                 'name' => 'Thu',
-                'value' => $thursday,
-                'date' => date('Y-m-').$thursday,
+                'value' => $_4_day,
+                'date' => $_4_date,
                 'is_cur' => $w == 4 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$thursday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_4_date ? 'disabled' : ''
             ],
             [
                 'id' => 5,
                 'name' => 'Fri',
-                'value' => $friday,
-                'date' => date('Y-m-').$friday,
+                'value' => $_5_day,
+                'date' => $_5_date,
                 'is_cur' => $w == 5 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$friday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_5_date ? 'disabled' : ''
             ],
             [
                 'id' => 6,
                 'name' => 'Sat',
-                'value' => $saturday,
-                'date' => date('Y-m-').$saturday,
+                'value' => $_6_day,
+                'date' => $_6_date,
                 'is_cur' => $w == 6 ? 1 : 0,
-                'is_disabled' => $now_date < date('Y-m-').$saturday ? 'disabled' : ''
+                'is_disabled' => $now_date < $_6_date ? 'disabled' : ''
             ],
         ];
+
         return [
             'code' => 0,
             'text' => 'success',
