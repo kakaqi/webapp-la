@@ -94,7 +94,7 @@ class WxUserController extends Controller
 
     public function openPayPage(Request $request){
         $openId = $request->input('openId');
-        if( $openId ) {
+        if( ! $openId ) {
             return  [
                 'code' => 400,
                 'text' => '没有获取到用户登录状态',
@@ -120,7 +120,7 @@ class WxUserController extends Controller
 
     public function savePayImage(Request $request){
         $openId = $request->input('openId');
-        if( $openId ) {
+        if( ! $openId ) {
             return  [
                 'code' => 400,
                 'text' => '没有获取到用户登录状态',
