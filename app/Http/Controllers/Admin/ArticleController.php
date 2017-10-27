@@ -17,7 +17,7 @@ class ArticleController extends BaseController
             \DB::raw('CONCAT("'.env('APP_URL').'", picture) AS picture'),
             \DB::raw('CONCAT("'.env('APP_URL').'", picture2) AS picture2'),
             \DB::raw('CONCAT("'.env('APP_URL').'", fenxiang_img) AS fenxiang_img')
-        )->get();
+        )->orderby("id","desc")->get();
         return view('admin.article')->with($this->view_data);
     }
 }

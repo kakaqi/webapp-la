@@ -33,6 +33,8 @@
                         <th>id</th>
                         <th>微信昵称</th>
                         <th>头像</th>
+                        <th>打开支付页面</th>
+                        <th>保存支付图片</th>
                         <th>性别</th>
                         <th>城市</th>
                         <th>省市</th>
@@ -49,6 +51,8 @@
                         <td>{{$item['id']}}</td>
                         <td>{{$item['nickName']}}</td>
                         <td><img src="{{$item['avatarUrl']}}" style="width:48px;height:48px;border-radius:50%;"/></td>
+                        <td>{{$item['open_pay_page']}}</td>
+                        <td>{{$item['save_pay_image']}}</td>
                         <td>{{$item['gender']}}</td>
                         <td>{{$item['city']}}</td>
                         <td>{{$item['province']}}</td>
