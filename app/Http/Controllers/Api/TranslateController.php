@@ -199,4 +199,57 @@ class TranslateController extends Controller
             'result' =>''
         ];
     }
+
+    public function tengxunVoiveToText(){
+        $appid = 1254223943;
+        // https://console.cloud.tencent.com/capi
+        // 从该页面获取APPID的SecretId和SecretKey
+        $secretid ='AKIDPefV7VRdNs88sLTVDiy1oKaaKtCFHey2';
+        $secretkey = 'xf80cz61iBQRDersgGbhYBZicIjvtc6L';
+
+        $req_url = 'aai.qcloud.com/asr/v1/'.$appid;
+
+        $args = array(
+            'channel_num' => 1,
+            'secretid' => $secretid,
+            'engine_model_type' => 1,
+            'timestamp' => time(),
+            'expired' => time() + 3600,
+            'nonce' => rand(100000, 200000),
+            'projectid' => 0,
+            'callback_url' => "https://translation.kakaqi.club/api/tengxun/voice/callback",
+            'res_text_format' => 0,
+            'res_type' => 1,
+            'source_type' => 0,
+            'sub_service_type' => 0,
+            'url' => "http://aai.qcloud.com/test.mp3",
+        );
+
+        // 参数按照Key的字母序排序
+        ksort($args);
+
+        $arg_str = "";
+        foreach($args as $k => $v) {
+            $arg_str = $arg_str . "$k=$v&";
+        }
+        $arg_str = trim($arg_str, "&");
+
+        // 拼接签名串
+        $sig_str = "POST$req_url?$arg_str";
+//        echo "sig_str: $sig_str\n";
+
+        // 计算签名
+        $signature = base64_encode(hash_hmac("sha1", $sig_str, $secretkey, TRUE));
+//        echo "signature: $signature\n";
+
+        $req_url = "https://$req_url?$arg_str";
+        $cmd =  "curl -sv -H 'Authorization:$signature' '$req_url' -d ''";
+        exec($cmd, $out);
+    }
+
+    public function tengxunCallback(){
+
+        file_put_contents('tengxunCallback.txt',var_export($_REQUEST));
+    }
 }
+

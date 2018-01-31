@@ -70,4 +70,7 @@ Route::namespace('Api')->group(function () {
 
     Route::get('pay/open', 'WxUserController@openPayPage');
     Route::get('pay/save', 'WxUserController@savePayImage');
+    //腾讯语音识别接口
+    Route::post('tengxun/voice', 'TranslateController@tengxunVoiveToText');
+    Route::get('tengxun/voice/callback', 'TranslateController@tengxunCallback');
 });

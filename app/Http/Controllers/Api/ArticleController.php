@@ -458,4 +458,6 @@ class ArticleController extends Controller
     {
         return '6666';
     }
+
+
 }
